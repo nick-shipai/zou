@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zou Messenger - Fast chat</title>
+  <link rel="stylesheet" href="styles.css">
+  <!-- Font Awesome CDN for Icons -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  
+  <!-- Firebase SDKs -->
+  <script type="module">
+    // Import Firebase modules
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.1.2/firebase-app.js';
+    import { getAuth, GoogleAuthProvider, signInWithPopup } from 'https://www.gstatic.com/firebasejs/9.1.2/firebase-auth.js';
+    import { getDatabase, ref, set } from 'https://www.gstatic.com/firebasejs/9.1.2/firebase-database.js';
+
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyDwKsNlw7wUDyQ_yEUhpYZdHIEnWFqQVyc",
+      authDomain: "gyfp-48c48.firebaseapp.com",
+      databaseURL: "https://gyfp-48c48-default-rtdb.firebaseio.com",
+      projectId: "gyfp-48c48",
+      storageBucket: "gyfp-48c48.appspot.com",
+      messagingSenderId: "1098492817072",
+      appId: "1:1098492817072:web:19ffb2510028ad75bf1575"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const database = getDatabase(app);
+
+    // Google Sign-In
+    document.addEventListener('DOMContentLoaded', () => {
+      const googleSignInBtn = document.querySelector('.google-signin-btn');
+      
+      googleSignInBtn.addEventListener('click', async () => {
+        try {
+          const provider = new GoogleAuthProvider();
+          const result = await signInWithPopup(auth, provider);
+          const user = result.user;
+
+          // Save user data to the real-time database
+          await set(ref(database, 'users/' + user.uid), {
+            name: user.displayName,
+            email: user.email,
+            profilePic: user.photoURL // Save the profile picture URL
+          });
+
+          // Redirect to chat.html
+          window.location.href = `chat.html?uid=${user.uid}`;
+        } catch (error) {
+          console.error('Error during sign-in:', error.message);
+          alert('Sign-in failed. Please try again.');
+        }
+      });
+    });
+  </script>
+</head>
+<body>
+  <div class="video-background-container">
+    <video autoplay loop muted class="video-background">
+      <source src="background.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+
+  <div class="content">
+    <div id="logo">Z<span class="highlight">o</span>u</div>
+    <button class="google-signin-btn">
+      <i class="fab fa-google"></i> Sign in with Google
+    </button>
+  </div>
+</body>
+</html>

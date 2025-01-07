@@ -1,0 +1,82 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; /* Added to ensure padding doesn't break layout */
+}
+html, body {
+    height: 100%;
+    width: 100%;
+}
+#container {
+    height: 100%;
+    width: 100%;
+    font-family: Arial, sans-serif;
+}
+#logo {
+    font-size: 2.5em;
+    font-weight: bold;
+    margin-left: 1rem;
+}
+span {
+    color: #ff6347; /* Highlight the 'o' in red */
+}
+#top-bar {
+    width: 100%;
+    height: 4rem;
+    background-color: #d2d2d2;
+    display: flex;
+    align-items: center;
+}
+#bodysec {
+    display: flex;
+    height: calc(100% - 4rem); /* Adjusts height excluding the top-bar */
+}
+#userAndChatDiv {
+    height: 100%;
+    width: 50%;
+    background-color: white;
+    color: black; /* Added for readability */
+    padding: 0.1rem;
+}
+#chatDiv {
+    height: 100%;
+    width: 50%;
+    background-color: #f5f5f5;
+    padding: 1rem;
+    border: none;
+}
+.user-grid {
+    display: flex;
+    width: 100%;
+    height: 7rem;
+    display: flex;
+    align-items: center;
+}
+.user-grid:hover, .user-grid:active {
+    background-color: #d2d2d2;
+    cursor: pointer;
+}
+#profilePicDiv {
+    height: 70px;
+    width: 70px;
+    border-radius: 50%;
+    border: 1px solid black;
+    background-color: white;
+    overflow: hidden; /* Ensures the image stays within the circle */
+}
+
+#profilePic {
+    height: 100%;
+    width: 100%;
+    object-fit: cover; /* Ensures the image scales properly */
+}
+#pic-name {
+    margin: 2%;
+    display: flex;
+    width: 100%;
+}
+#name {
+    font-size: 1.3rem;
+    margin-left: 2.5%;
+    font-weight: bold;
+}

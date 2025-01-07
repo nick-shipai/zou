@@ -1,0 +1,90 @@
+/* Basic reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body, html {
+    height: 100%;
+    width: 100%;
+    font-family: Arial, sans-serif;
+    color: white;
+    overflow: hidden;
+}
+
+.video-background-container {
+    position: relative;
+    width: 100%;
+    height: 100vh; /* Make video take full viewport height */
+    overflow: hidden;
+}
+
+.video-background {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%; /* Stretch video to fit container */
+    height: 100%; /* Make sure it covers the full height */
+    object-fit: cover; /* Ensures the video covers the container without distortion */
+    z-index: -1; /* Place video behind other content */
+}
+
+.content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    z-index: 1;
+}
+
+#logo {
+    font-size: 3em;
+    font-weight: bold;
+    margin-top: 50%;
+}
+
+#logo .highlight {
+    color: #ff6347; /* Highlight the 'o' in red */
+}
+
+/* Google Sign-In Button */
+.google-signin-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    padding: 12px 20px;
+    background-color: #4285f4;
+    color: white;
+    border: none;
+    border-radius: 25px; /* Rounded edges */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: background-color 0.3s, box-shadow 0.3s, transform 0.2s;
+    text-transform: uppercase;
+    font-weight: bold;
+    margin-top: 10%;
+}
+
+.google-signin-btn:hover {
+    background-color: #357ae8;
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.3);
+    transform: translateY(-2px);
+}
+
+.google-signin-btn:active {
+    transform: translateY(1px);
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.google-signin-btn i {
+    margin-right: 10px;
+    font-size: 20px;
+}
+button:focus, button:active {
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+}

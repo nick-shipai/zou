@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zou - Messenger</title>
+    <link rel="stylesheet" href="chat.css">
+</head>
+<body>
+    <section id="container">
+        <header id="top-bar">
+            <div id="logo">
+                Z<span>o</span>u
+            </div>
+        </header>
+        <section id="bodysec">
+            <div id="userAndChatDiv">
+                <!-- User list will be dynamically populated here -->
+            </div>
+            <div id="chatDiv">
+                <!-- Chat section -->
+                 
+            </div>
+        </section>
+    </section>
+    <script type="module">
+        // Import Firebase modules
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.1.2/firebase-app.js';
+        import { getAuth, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/9.1.2/firebase-auth.js';
+        import { getDatabase, ref, onValue } from 'https://www.gstatic.com/firebasejs/9.1.2/firebase-database.js';
+
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDwKsNlw7wUDyQ_yEUhpYZdHIEnWFqQVyc",
+            authDomain: "gyfp-48c48.firebaseapp.com",
+            databaseURL: "https://gyfp-48c48-default-rtdb.firebaseio.com",
+            projectId: "gyfp-48c48",
+            storageBucket: "gyfp-48c48.appspot.com",
+            messagingSenderId: "1098492817072",
+            appId: "1:1098492817072:web:19ffb2510028ad75bf1575"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const database = getDatabase(app);
+
+        // Authentication Check
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // User is signed in, load users from the database
+                loadUsers();
+            } else {
+                // No user is signed in, redirect to login page
+                window.location.href = 'login.html';
+            }
+        });
+
+        // Function to load all users from the database
+        const loadUsers = () => {
+            const usersRef = ref(database, 'users/');
+            const userAndChatDiv = document.getElementById('userAndChatDiv');
+
+            // Listen for changes in the users data
+            onValue(usersRef, (snapshot) => {
+                // Clear the current user list
+                userAndChatDiv.innerHTML = '';
+
+                // Loop through each user in the database
+                snapshot.forEach((childSnapshot) => {
+                    const user = childSnapshot.val();
+
+                    // Create user grid element
+                    const userGrid = document.createElement('div');
+                    userGrid.classList.add('user-grid');
+
+                    // Add profile picture and name
+                    userGrid.innerHTML = `
+                        <div id="pic-name">
+                            <div id="profilePicDiv">
+                                <img id="profilePic" src="${user.profilePic || 'default-profile.png'}" alt="${user.name}">
+                            </div>
+                            <div id="name">${user.name || 'Unknown User'}</div>
+                        </div>
+                    `;
+
+                    // Append the user grid to the userAndChatDiv
+                    userAndChatDiv.appendChild(userGrid);
+                });
+            });
+        };
+
+        // Optional: Add a sign-out feature
+        const addSignOutButton = () => {
+            const topBar = document.getElementById('top-bar');
+            const signOutButton = document.createElement('button');
+            signOutButton.textContent = 'Sign Out';
+            signOutButton.style.marginLeft = 'auto';
+            signOutButton.style.marginRight = '1rem';
+            signOutButton.style.cursor = 'pointer';
+
+            signOutButton.addEventListener('click', () => {
+                signOut(auth).then(() => {
+                    window.location.href = 'login.html'; // Redirect to login after sign-out
+                }).catch((error) => {
+                    console.error('Error signing out:', error);
+                });
+            });
+
+            topBar.appendChild(signOutButton);
+        };
+
+        addSignOutButton();
+    </script>
+</body>
+</html>
